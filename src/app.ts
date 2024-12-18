@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
-import transcribeRoute from './routes/transcribe';
+import transcribeRoute from './routes/transcribe.js';
+
+const __dirname = new URL('.', import.meta.url).pathname;
 
 const app = express();
 const PORT = 3000;
