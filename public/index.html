@@ -4,12 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zoom Transcript</title>
+  <style>
+    #transcript {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 100px;
+      white-space: pre-wrap;
+    }
+    .loading {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Upload Zoom Recording for Transcription</h1>
-  <form action="/transcribe" method="post" enctype="multipart/form-data">
+  <form id="uploadForm">
     <input type="file" name="video" accept="video/mp4" required />
     <button type="submit">Transcribe</button>
   </form>
+  <div class="loading" id="loadingIndicator">Processing... This may take a few minutes.</div>
+  <div id="transcript"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const transcriptDiv = document.getElementById('transcript');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      loadingIndicator.style.display = 'block';
+      transcriptDiv.textContent = '';
+
+      try {
+        const response = await fetch('/transcribe', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+
+        const data = await response.json();
+        transcriptDiv.textContent = data.transcript;
+      } catch (error) {
+        console.error('Error:', error);
+        transcriptDiv.textContent = 'An error occurred during transcription.';
+      } finally {
+        loadingIndicator.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
