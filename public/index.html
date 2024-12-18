@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zoom Transcript</title>
+    <title>Speech Transcription</title>
+    <link rel="stylesheet" type="text/css" href="/styles/global_styles.css">
 </head>
 <body>
-  <h1>Upload Zoom Recording for Transcription</h1>
-  <form action="/transcribe" method="post" enctype="multipart/form-data">
-    <input type="file" name="video" accept="video/mp4" required />
-    <button type="submit">Transcribe</button>
-  </form>
+    <h1>Upload Zoom Recording for Transcription</h1>
+    <form action="/transcribe" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept="video/mp4" required />
+        <button type="submit">Transcribe</button>
+    </form>
+    
+    <div class="controls">
+        <button id="startBtn" class="btn btn-primary">Start Listening</button>
+        <button id="copyBtn" class="btn btn-secondary">Copy to Clipboard</button>
+    </div>
+    <div id="transcript_result">Use this for transcription</div>
+
+    <script src="/scripts/client_transcription.js"></script>
 </body>
 </html>
